@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Nutrition Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Dear Nutrition Calculator</h1>
+    </header>
+    <main>
+        <section id="input-section">
+            <h2>Enter Patient History</h2>
+            <form id="input-form">
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" min="1" max="150" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" min="0" max="300" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="height-feet">Height (feet):</label>
+                    <input type="number" id="height-feet" min="1" max="8" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="height-inches">Height (inches):</label>
+                    <input type="number" id="height-inches" min="0" max="11" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="activity-factor">Activity Factor(1.1--1.12):</label>
+                    <input type="number" id="activity-factor" min="1.1" max="1.12" step="0.1">
+                </div>
+
+                <div class="form-group">
+                    <label for="carbs">Carbohydrates%(45-65):</label>
+                    <input type="number" id="carbs" min="45" max="65" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="protein">Protein% (10-35):</label>
+                    <input type="number" id="protein" min="10" max="35" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="fat">Fat% (20-35 ):</label>
+                    <input type="number" id="fat" min="20" max="35" step="1">
+                </div>
+
+                <button id="calculate-button">Calculate</button>
+            </form>
+        </section>
+        <section id="output-section">
+            <h2>Results</h2>
+            <div id="output"></div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
