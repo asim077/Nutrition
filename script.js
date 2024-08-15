@@ -7,20 +7,23 @@ document.getElementById("calculate-button").addEventListener("click", function (
     const heightFeet = parseInt(document.getElementById("height-feet").value);
     const heightInches = parseInt(document.getElementById("height-inches").value);
     const activityFactor = parseFloat(document.getElementById("activity-factor").value);
+    const stressFactor = parseFloat(document.getElementById("stress-factor").value);
     const carbs = parseFloat(document.getElementById("carbs").value);
     const protein = parseFloat(document.getElementById("protein").value);
     const fat = parseFloat(document.getElementById("fat").value);
-    // Check if any input fields are empty
+
+    // Check if any input fields are empty (except stress factor which is optional)
     if (isNaN(age) || isNaN(weight) || isNaN(heightFeet) || isNaN(heightInches) ||
         isNaN(activityFactor) || isNaN(carbs) || isNaN(protein) || isNaN(fat) ||
         !gender) {
         alert("Please fill out all fields.");
         return;
     }
+
     // Check if values are within acceptable ranges
     if (age < 1 || age > 150 || weight < 0 || weight > 300 || 
         heightFeet < 1 || heightFeet > 8 || heightInches < 0 || heightInches > 11 ||
-        activityFactor < 1.0 || activityFactor > 1.12 ||
+        activityFactor < 1.0 || activityFactor > 2.0 ||
         carbs < 45 || carbs > 65 || protein < 10 || protein > 35 || fat < 20 || fat > 35) {
         alert("Please ensure all input values are within the specified ranges.");
         return;
@@ -35,8 +38,14 @@ document.getElementById("calculate-button").addEventListener("click", function (
 
     const bmi = calculateBMI(weight, height);
     const ibw = calculateIBW(height, gender);
-    const bmr = calculateBMR(weight, height, age, gender);
-    const tee = calculateTEE(bmr, activityFactor);
+    const bmr = calculateBMR(ibw, height, age, gender); // Use IBW instead of actual weight
+    let tee = calculateTEE(bmr, activityFactor);
+
+    // Apply stress factor if provided
+    if (!isNaN(stressFactor)) {
+        tee *= stressFactor;
+    }
+
     const amdr = calculateAMDR(tee, carbs, protein, fat);
 
     displayResults(bmi, ibw, bmr, tee, amdr);
@@ -92,14 +101,13 @@ function calculateAMDR(tee, carbs, protein, fat) {
 function displayResults(bmi, ibw, bmr, tee, amdr) {
     const outputSection = document.getElementById("output");
     outputSection.innerHTML = `
-        <p><strong>BMI:</strong> ${bmi.toFixed(2)} kg/m<sup>2</sup></p>
-        <p><strong>IBW:</strong> ${ibw.toFixed(2)} kg</p>
-        <p><strong>BMR:</strong> ${bmr.toFixed(2)} kcal</p>
-        <p><strong>TEE:</strong> ${tee.toFixed(2)} kcal</p>
+        <p><strong>BMI:</strong> ${Math.round(bmi)} kg/m<sup>2</sup></p>
+        <p><strong>IBW:</strong> ${Math.round(ibw)} kg</p>
+        <p><strong>BMR:</strong> ${Math.round(bmr)} kcal</p>
+        <p><strong>TEE:</strong> ${Math.round(tee)} kcal</p>
         <h3>AMDR:</h3>
-        <p><strong>Carbohydrates:</strong> ${amdr.Carbohydrates.toFixed(2)} grams</p>
-        <p><strong>Protein:</strong> ${amdr.Protein.toFixed(2)} grams</p>
-        <p><strong>Fat:</strong> ${amdr.Fat.toFixed(2)} grams</p>
+        <p><strong>Carbohydrates:</strong> ${Math.round(amdr.Carbohydrates)} grams</p>
+        <p><strong>Protein:</strong> ${Math.round(amdr.Protein)} grams</p>
+        <p><strong>Fat:</strong> ${Math.round(amdr.Fat)} grams</p>
     `;
 }
-
